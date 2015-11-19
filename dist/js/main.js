@@ -19644,22 +19644,27 @@ module.exports = AppActions;
 
 },{"../constants/app-constants":170,"../dispatchers/app-dispatcher":171}],163:[function(require,module,exports){
 var React = require('react');
-var AppActions = require('../actions/app-actions');
+var Catalog = require('./catalog/app-catalog');
+var Cart = require('./cart/app-cart');
 
-var AddToCart = React.createClass({displayName: "AddToCart",
-  handler: function(){
-    AppActions.addItem(this.props.item);
-  },
+var App = React.createClass({displayName: "App",
   render: function(){
-    return React.createElement("button", {onClick: this.handler}, "Add To Cart")
+    return (
+      React.createElement("div", null, 
+        React.createElement("h1", null, "Lets Shop"), 
+        React.createElement(Catalog, null), 
+        React.createElement("h1", null, "Cart"), 
+        React.createElement(Cart, null)
+      )
+    );
   }
 });
 
-module.exports = AddToCart;
+module.exports = App;
 
-},{"../actions/app-actions":162,"react":161}],164:[function(require,module,exports){
+},{"./cart/app-cart":164,"./catalog/app-catalog":169,"react":161}],164:[function(require,module,exports){
 var React = require('react');
-var AppStore = require('../stores/app-store.js');
+var AppStore = require('../../stores/app-store.js');
 var RemoveFromCart = require('./app-removefromcart.js');
 var Increase = require('./app-increaseitem.js');
 var Decrease = require('./app-decreaseitem.js');
@@ -19723,9 +19728,69 @@ var Cart = React.createClass({displayName: "Cart",
 
 module.exports = Cart;
 
-},{"../stores/app-store.js":173,"./app-decreaseitem.js":166,"./app-increaseitem.js":167,"./app-removefromcart.js":168,"react":161}],165:[function(require,module,exports){
+},{"../../stores/app-store.js":173,"./app-decreaseitem.js":165,"./app-increaseitem.js":166,"./app-removefromcart.js":167,"react":161}],165:[function(require,module,exports){
 var React = require('react');
-var AppStore = require('../stores/app-store.js');
+var AppActions = require('../../actions/app-actions');
+
+var DecreaseItem = React.createClass({displayName: "DecreaseItem",
+  handler: function(){
+    AppActions.decreaseItem(this.props.index);
+  },
+  render: function(){
+    return React.createElement("button", {onClick: this.handler}, "-")
+  }
+});
+
+module.exports = DecreaseItem;
+
+},{"../../actions/app-actions":162,"react":161}],166:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../../actions/app-actions');
+
+var IncreaseItem = React.createClass({displayName: "IncreaseItem",
+  handler: function(){
+    AppActions.increaseItem(this.props.index);
+  },
+  render: function(){
+    return React.createElement("button", {onClick: this.handler}, "+")
+  }
+});
+
+module.exports = IncreaseItem;
+
+},{"../../actions/app-actions":162,"react":161}],167:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../../actions/app-actions');
+
+var RemoveFromCart = React.createClass({displayName: "RemoveFromCart",
+  handler: function(){
+    AppActions.removeItem(this.props.index);
+  },
+  render: function(){
+    return React.createElement("button", {onClick: this.handler}, "X")
+  }
+});
+
+module.exports = RemoveFromCart;
+
+},{"../../actions/app-actions":162,"react":161}],168:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../../actions/app-actions');
+
+var AddToCart = React.createClass({displayName: "AddToCart",
+  handler: function(){
+    AppActions.addItem(this.props.item);
+  },
+  render: function(){
+    return React.createElement("button", {onClick: this.handler}, "Add To Cart")
+  }
+});
+
+module.exports = AddToCart;
+
+},{"../../actions/app-actions":162,"react":161}],169:[function(require,module,exports){
+var React = require('react');
+var AppStore = require('../../stores/app-store.js');
 var AddToCart = require('./app-addtocart.js');
 
 function getCatalog(){
@@ -19756,72 +19821,7 @@ var Catalog = React.createClass({displayName: "Catalog",
 
 module.exports = Catalog;
 
-},{"../stores/app-store.js":173,"./app-addtocart.js":163,"react":161}],166:[function(require,module,exports){
-var React = require('react');
-var AppActions = require('../actions/app-actions');
-
-var DecreaseItem = React.createClass({displayName: "DecreaseItem",
-  handler: function(){
-    AppActions.decreaseItem(this.props.index);
-  },
-  render: function(){
-    return React.createElement("button", {onClick: this.handler}, "-")
-  }
-});
-
-module.exports = DecreaseItem;
-
-},{"../actions/app-actions":162,"react":161}],167:[function(require,module,exports){
-var React = require('react');
-var AppActions = require('../actions/app-actions');
-
-var IncreaseItem = React.createClass({displayName: "IncreaseItem",
-  handler: function(){
-    AppActions.increaseItem(this.props.index);
-  },
-  render: function(){
-    return React.createElement("button", {onClick: this.handler}, "+")
-  }
-});
-
-module.exports = IncreaseItem;
-
-},{"../actions/app-actions":162,"react":161}],168:[function(require,module,exports){
-var React = require('react');
-var AppActions = require('../actions/app-actions');
-
-var RemoveFromCart = React.createClass({displayName: "RemoveFromCart",
-  handler: function(){
-    AppActions.removeItem(this.props.index);
-  },
-  render: function(){
-    return React.createElement("button", {onClick: this.handler}, "X")
-  }
-});
-
-module.exports = RemoveFromCart;
-
-},{"../actions/app-actions":162,"react":161}],169:[function(require,module,exports){
-var React = require('react');
-var Catalog = require('../components/app-catalog');
-var Cart = require('../components/app-cart');
-
-var App = React.createClass({displayName: "App",
-  render: function(){
-    return (
-      React.createElement("div", null, 
-        React.createElement("h1", null, "Lets Shop"), 
-        React.createElement(Catalog, null), 
-        React.createElement("h1", null, "Cart"), 
-        React.createElement(Cart, null)
-      )
-    );
-  }
-});
-
-module.exports = App;
-
-},{"../components/app-cart":164,"../components/app-catalog":165,"react":161}],170:[function(require,module,exports){
+},{"../../stores/app-store.js":173,"./app-addtocart.js":168,"react":161}],170:[function(require,module,exports){
 module.exports = {
   ADD_ITEM: 'ADD_ITEM',
   REMOVE_ITEM: 'REMOVE_ITEM',
@@ -19851,7 +19851,7 @@ var React = require('react');
 
 React.render(React.createElement(App, null), document.getElementById('main'));
 
-},{"./components/app":169,"react":161}],173:[function(require,module,exports){
+},{"./components/app":163,"react":161}],173:[function(require,module,exports){
 var AppDispatcher = require('../dispatchers/app-dispatcher');
 var AppConstants = require('../constants/app-constants');
 var assign = require('react/lib/Object.assign');
