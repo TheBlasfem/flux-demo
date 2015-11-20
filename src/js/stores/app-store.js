@@ -77,31 +77,32 @@ var AppStore = assign(EventEmitter.prototype, {
   },
   getCartTotals: function(){
     return _cartTotals();
-  },
-  dispatcherIndex: AppDispatcher.register(function(payload){
-    var action = payload.action;
-    switch(action.actionType){
-      case AppConstants.ADD_ITEM:
-        _addItem(payload.action.item);
-        break;
+  }
+});
 
-      case AppConstants.REMOVE_ITEM:
-        _removeItem(payload.action.index);
-        break;
+AppDispatcher.register(function(payload){
+  var action = payload.action;
+  switch(action.actionType){
+    case AppConstants.ADD_ITEM:
+      _addItem(payload.action.item);
+      break;
 
-      case AppConstants.INCREASE_ITEM:
-        _increaseItem(payload.action.index);
-        break;
+    case AppConstants.REMOVE_ITEM:
+      _removeItem(payload.action.index);
+      break;
 
-      case AppConstants.DECREASE_ITEM:
-        _decreaseItem(payload.action.index);
-        break;
-    }
+    case AppConstants.INCREASE_ITEM:
+      _increaseItem(payload.action.index);
+      break;
 
-    AppStore.emitChange();
+    case AppConstants.DECREASE_ITEM:
+      _decreaseItem(payload.action.index);
+      break;
+  }
 
-    return true;
-  })
+  AppStore.emitChange();
+
+  return true;
 });
 
 module.exports = AppStore;
